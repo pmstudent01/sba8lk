@@ -1,0 +1,26 @@
+$kind: http-request
+name: Existing driver is found
+url: "{{baseUrl}}/driver/:id"
+method: GET
+pathVariables:
+  id: "{{driverID}}"
+auth:
+  type: jwt
+  credentials:
+    isSecretBase64Encoded: true
+    secret: "{{jwtSecret}}"
+    algorithm: HS256
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("SafetyScore is a number", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.safetyScore).to.be.a('string');
+      });
+    language: text/javascript
+order: 1000

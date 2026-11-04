@@ -1,0 +1,9 @@
+name: Local
+values:
+  - key: baseUrl
+    value: 'http://localhost:4500'
+    enabled: true
+  - key: jwtSecret
+    value: YS1zdHJpbmctc2VjcmV0LWF0LWxlYXN0LTI1Ni1iaXRzLWxvbmc=
+    enabled: true
+color: 0

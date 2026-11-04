@@ -1,0 +1,55 @@
+$kind: http-request
+name: Update Driver Safety Metrics with Trip Data
+url: "{{baseUrl}}/driver/:id"
+method: PUT
+headers:
+  x-mock-response-code: "200"
+pathVariables:
+  id: "{{driverID}}"
+body:
+  type: json
+  content: |-
+    {
+      "driver": {
+        "firstName": "Alex",
+        "lastName": "Johnson",
+        "license": {
+          "issueDate": "2022-05-14",
+          "expiry": "2026-05-14",
+          "issuingState": "CA",
+          "restrictions": [
+            "B"
+          ]
+        },
+        "email": "alex.johnson@example.com"
+      },
+      "safetyScore": 95,
+      "hardStops": 0,
+      "speeding": 1,
+      "nightDrives": 0,
+      "weather": 2,
+      "ignoredWarnings": 0
+    }
+auth:
+  type: jwt
+  credentials:
+    isSecretBase64Encoded: true
+    secret: "{{jwtSecret}}"
+    algorithm: HS256
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Weather was updated", ()=> {
+          pm.expect(pm.response.json().weather).to.equal(2);
+      });
+    language: text/javascript
+order: 1000

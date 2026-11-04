@@ -1,0 +1,29 @@
+$kind: http-request
+name: Diagnostic report is triggered and queued
+url: "{{baseUrl}}/diagnostics/generate/:vehicleId"
+method: POST
+headers:
+  x-mock-response-code: "201"
+pathVariables:
+  vehicleId: "{{vehicleID}}"
+auth:
+  type: jwt
+  credentials:
+    isSecretBase64Encoded: true
+    secret: "{{jwtSecret}}"
+    algorithm: HS256
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      pm.collectionVariables.set("diagnosticRunID", pm.response.json().id);
+    language: text/javascript
+order: 1000

@@ -1,0 +1,9 @@
+name: Test
+values:
+  - key: baseUrl
+    value: 'https://demo.postman-academy.com/v1/safestar-test'
+    enabled: true
+  - key: jwtSecret
+    value: YS1zdHJpbmctc2VjcmV0LWF0LWxlYXN0LTI1Ni1iaXRzLWxvbmc=
+    enabled: true
+color: 60

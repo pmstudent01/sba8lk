@@ -1,0 +1,32 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/vehicle/:id"
+  method: PATCH
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+  pathVariables:
+    id: "1002"
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "Request body failed validation.",
+          "details": {
+            "fields": [
+              {
+                "field": "battery",
+                "issue": "value must be an enum: [OK, LOW, ERR]"
+              }
+            ]
+          }
+        }
+      }
+order: 2000

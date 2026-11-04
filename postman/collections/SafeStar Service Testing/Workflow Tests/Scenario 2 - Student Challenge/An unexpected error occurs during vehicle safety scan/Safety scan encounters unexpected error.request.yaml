@@ -1,0 +1,29 @@
+$kind: http-request
+name: Safety scan encounters unexpected error
+url: "{{baseUrl}}/run"
+method: POST
+headers:
+  - key: x-mock-response-code
+    value: "500"
+  - key: test-fail
+    value: "true"
+    disabled: true
+body:
+  type: json
+  content: |-
+    {
+      "vehicle": "{{vehicleID}}",
+      "driver": "{{driverID}}"
+    }
+auth:
+  type: jwt
+  credentials:
+    isSecretBase64Encoded: true
+    secret: "{{jwtSecret}}"
+    algorithm: HS256
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+order: 1000
