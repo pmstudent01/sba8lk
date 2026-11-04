@@ -1,5 +1,4 @@
 $kind: http-request
-name: Existing driver is found
 url: "{{baseUrl}}/driver/:id"
 method: GET
 pathVariables:
@@ -18,9 +17,27 @@ auth:
 scripts:
   - type: afterResponse
     code: |-
+      const qaWorkshopPackage = pm.require('@postvehicle-enterprise-team-2b1c89a1-7156-483f-b7a7-431c7a81/qa_workshop_package');
       pm.test("SafetyScore is a number", function () {
           var jsonData = pm.response.json();
-          pm.expect(jsonData.safetyScore).to.be.a('string');
+          pm.expect(jsonData.safetyScore).to.be.a('number');
       });
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("SafetyScore is a number", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.safetyScore).to.be.a('number');
+      });
+      pm.test("VIN is valid", function () {
+              pm.expect(qaWorkshopPackage.isValidVIN(jsonData.vehicle.vin)).to.be.true;
+      });
+      pm.test("SafetyScore between 0 and 100"), function () {
+          pm.expect(jsonData.safetyScore).to.be.above(-1);
+          pm.expect(jsonData.safetyScore).to.be.below(101);
+      };
     language: text/javascript
+    packages:
+      "@postvehicle-enterprise-team-2b1c89a1-7156-483f-b7a7-431c7a81/qa_workshop_package":
+        id: 01a1a712-f0b7-7199-bdfe-1d4a8a25500b
 order: 1000

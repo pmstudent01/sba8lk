@@ -1,5 +1,4 @@
 $kind: http-request
-name: Confirm Driver Profile Exists
 url: "{{baseUrl}}/driver/:id"
 method: GET
 pathVariables:
@@ -17,9 +16,8 @@ auth:
     header: "{}"
 scripts:
   - type: afterResponse
-    code: >-
+    code: |-
       pm.variables.set("driverFirstName", pm.response.json().driver.firstName);
-
 
       pm.test("Driver profile response is properly formed", function () {
 
@@ -42,7 +40,7 @@ scripts:
               required: ["firstName", "lastName", "license", "email"],
               properties: {
                 firstName: { type: "string" },
-                lastName: { type: "number" },
+                lastName: { type: "string" },
                 email: { type: "string" },
                 license: {
                   type: "object",
